@@ -1,0 +1,36 @@
+version: '3.1'
+
+services: 
+    micron_docker:
+        container_name: micron_docker
+        command: sh /usr/bin/start-services
+        restart: "no"
+        build: ./build
+        ports:  
+            - 80:80
+            - 8081:8081
+            - 6379:6379
+        volumes:
+            # Configurações dos serviços
+            - ./build/apache2/ports.conf:/etc/apache2/ports.conf
+            - ./build/apache2/sites:/etc/apache2/sites-enabled
+            - ./build/php/php.ini:/etc/php/7.3/apache2/php.ini
+            - ./build/php/php.ini:/etc/php/7.3/cli/php.ini
+            - ./build/php/xdebug.ini:/etc/php/7.3/cli/conf.d/20-xdebug.ini
+            - ./build/php/xdebug.ini:/etc/php/7.3/apache2/conf.d/20-xdebug.ini
+            - ./build/redis/redis.conf:/etc/redis/redis.conf
+                
+            # Sistemas
+            - ./www/integra:/var/www/integra
+            # - ./www/micronvendas:/usr/share/nginx/html/micronvendas
+            # - ./www/minhamicron:/usr/share/nginx/html/minhamicron 
+        
+    mysql57_micron:
+        image: mysql:5.7
+        container_name: mysql57_micron
+        command: --default-authentication-plugin=mysql_native_password --sql_mode=''
+        restart: "no"
+        environment:
+            MYSQL_ROOT_PASSWORD: root
+        ports:
+            - 3306:3306

@@ -6,7 +6,7 @@ if [ "$(id -u)" != "0" ]; then
 fi
 
 IPDOCKER="172.17.0.1"
-VHOSTS="integra.local minhamicron.local micronvendas.local"
+VHOSTS="integra.local minhamicron.local micronvendas.local micron-estoque.local"
 
 for VHOST in $VHOSTS; do
     if  grep -q $VHOST /etc/hosts; then

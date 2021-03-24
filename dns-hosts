@@ -1,0 +1,64 @@
+#!/bin/bash
+
+die() {
+    echo "$*"
+    exit 1
+}
+
+# Tries to switch to root user
+if [ "$(id -u)" != 0 ]; then
+    exec sudo -E -- "$0" "$@" || die "this script needs to run as root"
+else
+    : "${SUDO_UID:=0}" "${SUDO_GID:=0}"
+fi
+
+SCRIPT_NAME=`basename $0`
+OPTION_ARG=$1
+HOST_ARG=$2
+IP_ARG=$3
+
+DEFAULT_IPDOCKER="172.17.0.1"
+IPDOCKER="$DEFAULT_IPDOCKER"
+VHOSTS="integra.local minhamicron.local micronvendas.local micron-estoque.local"
+
+create_host() {
+    HOSTNAME=$1
+
+    if  grep -q $HOSTNAME /etc/hosts; then
+        echo "$HOSTNAME: já existe!"
+    else
+        echo -e "$IPDOCKER\t$HOSTNAME" >> /etc/hosts
+        echo "$HOSTNAME: criado com sucesso!"
+    fi
+}
+
+create_default_hosts() {
+    for VHOST in $VHOSTS; do
+        create_host $VHOST
+    done
+}
+
+display_usage() {
+    echo "Uso: $SCRIPT_NAME [ OPÇÂO ] [ HOST ] [IP DE DESTINO]"
+    echo "  -a,--all cria o DNS para cada host padrão"
+    echo "  -n,--new cria o DNS para o host informado no parametro"
+}
+
+# If the ip argument is passed then replace the default value
+if [ -n "$IP_ARG" ]; then
+    IPDOCKER="$IP_ARG"
+fi
+
+# Treats the option passed by the argument
+case $OPTION_ARG in 
+    "-a"|"--all")
+        create_default_hosts
+    ;;
+    "-n"|"--new")
+        create_host "$HOST_ARG"
+    ;;
+    *) 
+        display_usage
+    ;;
+esac
+

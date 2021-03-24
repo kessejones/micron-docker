@@ -3,19 +3,19 @@ FROM ubuntu:20.04
 ARG DEBIAN_FRONTEND=noninteractive
 
 # Atualizando repositórios e adicionando repositorio do PHP7.3
-RUN apt update
+RUN apt-get update
 RUN apt-get install -y software-properties-common
 RUN add-apt-repository -y ppa:ondrej/php
-RUN apt update
+RUN apt-get update
 
 # Instalando utilitários
 RUN apt install -y sudo vim
 
 # Instalando serviços
-RUN apt install -y apache2 redis-server
-RUN apt install -y libxml2 libxml2-dev libpng-dev libjpeg-dev
-RUN apt install -y php7.3 php7.3-json php7.3-mysql php7.3-mbstring php7.3-xml php7.3-gd php7.3-redis php7.3-xdebug php7.3-curl
-RUN apt install -y composer
+RUN apt-get install -y apache2 redis-server
+RUN apt-get install -y libxml2 libxml2-dev libpng-dev libjpeg-dev
+RUN apt-get install -y php7.3 php7.3-json php7.3-mysql php7.3-mbstring php7.3-xml php7.3-gd php7.3-redis php7.3-xdebug php7.3-curl php7.3-intl
+RUN apt-get install -y composer
 
 # Ajustando timezone do container
 RUN ln -fs /usr/share/zoneinfo/America/Sao_Paulo /etc/timezone

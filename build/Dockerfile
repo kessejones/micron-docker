@@ -26,17 +26,17 @@ RUN a2enmod proxy
 RUN a2enmod proxy_http
 
 # Configurações do apache
-COPY ./apache2/ports.conf /etc/apache2/ports.conf
-COPY ./apache2/sites /etc/apache2/sites-enabled
+COPY ./apache2/ports.conf /etc/apache2/
+COPY ./apache2/sites /etc/apache2/sites-enabled/
 
 # Configurações do php
-COPY ./php/php.ini /usr/etc/php/7.3/apache/php.ini
-COPY ./php/php.ini /usr/etc/php/7.3/cli/php.ini
-COPY ./php/xdebug.ini /etc/php/7.3/apache/conf.d/20-xdebug.ini
-COPY ./php/xdebug.ini /etc/php/7.3/cli/conf.d/20-xdebug.ini
+COPY ./php/php.ini /etc/php/7.3/apache2/
+COPY ./php/php.ini /etc/php/7.3/cli/
+COPY ./php/xdebug.ini /etc/php/7.3/apache2/conf.d/
+COPY ./php/xdebug.ini /etc/php/7.3/cli/conf.d/
 
 # Configuração do redis
-COPY ./redis/redis.conf /etc/redis/redis.conf
+COPY ./redis/redis.conf /etc/redis/
 
 # Script de inicialização dos serviços
 COPY ./start.sh /start.sh 

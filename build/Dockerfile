@@ -14,7 +14,7 @@ RUN apt install -y sudo vim
 # Instalando serviços
 RUN apt-get install -y apache2 redis-server
 RUN apt-get install -y libxml2 libxml2-dev libpng-dev libjpeg-dev
-RUN apt-get install -y php7.3 php7.3-json php7.3-mysql php7.3-mbstring php7.3-xml php7.3-gd php7.3-redis php7.3-xdebug php7.3-curl php7.3-intl
+RUN apt-get install -y php7.3 php7.3-json php7.3-mysql php7.3-mbstring php7.3-xml php7.3-gd php7.3-redis php7.3-xdebug php7.3-curl php7.3-intl php7.3-soap
 RUN apt-get install -y composer
 
 # Ajustando timezone do container
